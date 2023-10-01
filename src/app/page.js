@@ -35,3 +35,5 @@ async function getContent() {
 	const { data } = await res.json();
 	return data;
 }
+
+export const dynamic = 'force-dynamic';
