@@ -1,6 +1,6 @@
 .header {
 	position: fixed;
-	z-index: 1;
+	z-index: 2;
 	display: flex;
 	width: 100%;
 	align-items: center;
@@ -8,7 +8,7 @@
 	top: 30px;
 
 	.headerContainer {
-		background-color: #7394b287;
+		background-color: rgba(#82a1bd, 0.8);
 		width: 80%;
 		border-radius: 16px;
 		display: flex;

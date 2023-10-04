@@ -32,18 +32,20 @@ export const getGoogleSheetsData = async ranges => {
 	return data.valueRanges;
 };
 
-export const mapDataToLinks = ({ key, data, max }) => {
-	const links = [];
-	for (let i = 1; i <= max; i++) {
-		const labelKey = `${key}_${i}_label`;
-		const linkKey = `${key}_${i}_link`;
+export const combineKeyValuePairs = ({ key, data, max, types }) => {
+	const arr = [];
 
-		if (data[linkKey])
-			links.push({
-				label: data[labelKey],
-				link: data[linkKey],
-			});
+	for (let i = 1; i <= max; i++) {
+		const item = types.reduce(
+			(acc, type) => ({
+				...acc,
+				[type]: data[`${key}_${i}_${type}`],
+			}),
+			{}
+		);
+
+		if (!Object.values(item).includes(undefined)) arr.push(item);
 	}
 
-	return links;
+	return arr;
 };

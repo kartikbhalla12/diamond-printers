@@ -1,15 +1,14 @@
 import styles from './page.module.scss';
-import { mapDataToLinks } from '@utils/sheets';
 
 import Header from '@components/header';
 // import Footer from '@components/footer';
 import Banner from '@components/banner';
-import sheets from '@constants/sheets';
+import Process from '@components/process';
+
+import { combineKeyValuePairs } from '@utils/sheets';
 
 export default async function Home(props) {
-	const data = await getContent();
-	const header = data[sheets.header];
-	const banner = data[sheets.banner];
+	const { header, banner, process } = await getContent();
 
 	return (
 		<main className={styles.main}>
@@ -18,14 +17,33 @@ export default async function Home(props) {
 					label: header.button_label,
 					link: header.button_link,
 				}}
-				links={mapDataToLinks({ data: header, max: 6, key: 'nav' })}
+				links={combineKeyValuePairs({
+					data: header,
+					max: 6,
+					key: 'nav',
+					types: ['label', 'link'],
+				})}
 			/>
 			<Banner
 				heading={banner.heading}
 				description={banner.description}
-				buttons={mapDataToLinks({ data: banner, max: 2, key: 'button' })}
+				buttons={combineKeyValuePairs({
+					data: banner,
+					max: 2,
+					key: 'button',
+					types: ['label', 'link'],
+				})}
 			/>
 			{/* <Footer /> */}
+			<Process
+				heading={process.heading}
+				steps={combineKeyValuePairs({
+					data: process,
+					max: 3,
+					key: 'step',
+					types: ['label', 'description'],
+				})}
+			/>
 		</main>
 	);
 }
