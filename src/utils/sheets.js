@@ -26,7 +26,7 @@ export const getGoogleSheetsData = async ranges => {
 
 	const { data } = await sheets.spreadsheets.values.batchGet({
 		spreadsheetId: GOOGLE_SHEETS_SPREADSHEET_ID,
-		ranges: ranges,
+		ranges,
 	});
 
 	return data.valueRanges;
