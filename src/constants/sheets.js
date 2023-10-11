@@ -6,6 +6,8 @@ const sheets = {
 	testimonials: 'testimonials',
 	process: 'process',
 	footer: 'footer',
+	contactUs: 'contact_us',
+	clients: 'clients',
 };
 
 export default sheets;

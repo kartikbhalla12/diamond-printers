@@ -1,10 +1,12 @@
 'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
 import { Formik } from 'formik';
 import { isValidPhoneNumber } from 'libphonenumber-js/mobile';
 import emailjs from '@emailjs/browser';
 import * as yup from 'yup';
+import BarLoader from 'react-spinners/BarLoader';
 
 import styles from '@components/contactUs/index.module.scss';
 
@@ -29,7 +31,10 @@ const schema = new yup.ObjectSchema({
 	message: yup.string().min(1, 'Required').required('Required'),
 });
 
-const ContactUs = ({ heading }) => {
+const ContactUs = ({ heading, description, email, phone, address, form }) => {
+	const [isSuccess, setSuccess] = useState(false);
+	const [isError, setError] = useState(false);
+
 	return (
 		<div className={styles.contactUs}>
 			<Image
@@ -42,29 +47,27 @@ const ContactUs = ({ heading }) => {
 			<div className={styles.overlay} />
 			<div className={styles.contactContainer}>
 				<div className={styles.leftContainer}>
-					<h2>The Gateway to Packaging Excellence</h2>
-					<p className={styles.subHeading}>
-						Ready to Elevate Your Packaging? Contact Us Here
-					</p>
+					<h2>{heading}</h2>
+					<p className={styles.subHeading}>{description}</p>
 
 					<div className={styles.details}>
 						<div className={styles.detail}>
 							<Location />
 							<a
-								href='https://www.google.co.in/maps/place/Diamond+Printers,+54%2FA6,+Rama+Rd,+Kirti+Nagar+Industrial+Area,+Najafgarh+Road+Industrial+Area,+New+Delhi,+Delhi,+110015/@28.6558985,77.1602759,13z/data=!4m6!3m5!1s0x390d03368b727b45:0x763615338350add9!8m2!3d28.6610458!4d77.155487!16s%2Fg%2F11rk5dwqm4'
+								href={address.link}
 								target='_blank'
 								className={styles.location}>
-								Sec-4, Rajiv Chowk, Delhi,203453
+								{address.label}
 							</a>
 						</div>
 						<div className={styles.detail}>
 							<Phone />
 
-							<a href='tel:+918887772922'>+91 984-543-4356</a>
+							<a href={`tel:${phone.value}`}>{phone.label}</a>
 						</div>
 						<div className={styles.detail}>
 							<Mail />
-							<a href='mailto:diamondprints@xyz.com'>diamondprints@xyz.com</a>
+							<a href={`mailto:${email.value}`}>{email.label}</a>
 						</div>
 					</div>
 				</div>
@@ -74,8 +77,11 @@ const ContactUs = ({ heading }) => {
 					validationSchema={schema}
 					onSubmit={async (
 						{ name, email, phone, message },
-						{ setSubmitting }
+						{ setSubmitting, resetForm }
 					) => {
+						setError(false);
+						setSuccess(false);
+
 						try {
 							await emailjs.send(
 								process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
@@ -88,9 +94,11 @@ const ContactUs = ({ heading }) => {
 								},
 								process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
 							);
-							alert('success');
+
+							resetForm();
+							setSuccess(true);
 						} catch {
-							alert('failed');
+							setError(true);
 						}
 
 						setSubmitting(false);
@@ -105,52 +113,71 @@ const ContactUs = ({ heading }) => {
 						isSubmitting,
 					}) => (
 						<form onSubmit={handleSubmit} className={styles.form}>
-							<h3>Need to Make an Enquiry?</h3>
+							<h3>{form.heading}</h3>
 							<input
 								type='name'
 								name='name'
-								placeholder='Your Name *'
+								placeholder={`${form.name} *`}
 								onChange={handleChange}
 								onBlur={handleBlur}
 								value={values.name}
 							/>
-							{errors.name && touched.name && <p>{errors.name}</p>}
+							{errors.name && touched.name && (
+								<p className={styles.fieldError}>{errors.name}</p>
+							)}
 							<input
 								type='email'
 								name='email'
-								placeholder='Email *'
+								placeholder={`${form.email} *`}
 								onChange={handleChange}
 								onBlur={handleBlur}
 								value={values.email}
 							/>
-							{errors.email && touched.email && <p>{errors.email}</p>}
+							{errors.email && touched.email && (
+								<p className={styles.fieldError}>{errors.email}</p>
+							)}
 
 							<div className={styles.phoneInputContainer}>
 								{values.phone && <span>+91 </span>}
 								<input
 									type='phone'
 									name='phone'
-									placeholder='Phone *'
+									placeholder={`${form.phone} *`}
 									onChange={handleChange}
 									onBlur={handleBlur}
 									value={values.phone}
-									prefix='+91'
 								/>
 							</div>
 
-							{errors.phone && touched.phone && <p>{errors.phone}</p>}
+							{errors.phone && touched.phone && (
+								<p className={styles.fieldError}>{errors.phone}</p>
+							)}
 							<textarea
 								type='text'
 								name='message'
-								placeholder='Drop your enquiry here *'
+								placeholder={`${form.message} *`}
 								onChange={handleChange}
 								onBlur={handleBlur}
 								value={values.message}
 							/>
-							{errors.message && touched.message && <p>{errors.message}</p>}
+							{errors.message && touched.message && (
+								<p className={styles.fieldError}>{errors.message}</p>
+							)}
 							<button type='submit' disabled={isSubmitting}>
-								Submit Message
+								{isSubmitting ? (
+									<BarLoader className={styles.loader} />
+								) : (
+									form.button
+								)}
 							</button>
+							{isSuccess && (
+								<p className={styles.success}>
+									{form.validationMessages.success}
+								</p>
+							)}
+							{isError && (
+								<p className={styles.error}>{form.validationMessages.error}</p>
+							)}
 						</form>
 					)}
 				</Formik>

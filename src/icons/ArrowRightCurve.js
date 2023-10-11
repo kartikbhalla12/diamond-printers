@@ -1,4 +1,4 @@
-const RightCurveArrow = props => (
+const ArrowRightCurve = props => (
 	<svg
 		width='159'
 		height='30'
@@ -13,4 +13,4 @@ const RightCurveArrow = props => (
 	</svg>
 );
 
-export default RightCurveArrow;
+export default ArrowRightCurve;

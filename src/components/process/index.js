@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import RightCurveArrow from '@icons/rightCurveArrow';
+import ArrowRightCurve from '@icons/ArrowRightCurve';
 
 import styles from '@components/process/index.module.scss';
 
@@ -37,7 +37,7 @@ const Process = ({ heading, steps }) => {
 						<h3>{step.label}</h3>
 						<p>{step.description}</p>
 						{index < steps.length - 1 && (
-							<RightCurveArrow
+							<ArrowRightCurve
 								height={30}
 								width={160}
 								className={styles.arrow}

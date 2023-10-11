@@ -1,0 +1,45 @@
+.clients {
+	background-color: #6c8ba8;
+	border-top-left-radius: 80px;
+	border-top-right-radius: 80px;
+	text-align: center;
+	padding: 80px 120px;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+
+	h2 {
+		font-size: 32px;
+		line-height: 48px;
+		font-weight: 500;
+		color: #fffdf6;
+		margin-bottom: 32px;
+	}
+
+	h3 {
+		font-size: 18px;
+		line-height: 24px;
+		font-weight: 400;
+		color: #fffdf6;
+		max-width: 600px;
+	}
+
+	.images {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		column-gap: 40px;
+		margin-top: 48px;
+		flex-wrap: wrap;
+
+		.imageContainer {
+			position: relative;
+			width: 100px;
+			height: 120px;
+
+			img {
+				object-fit: contain;
+			}
+		}
+	}
+}

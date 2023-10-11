@@ -6,8 +6,8 @@ import useEmblaCarousel from 'embla-carousel-react';
 
 import styles from '@components/testimonials/index.module.scss';
 
-import LeftArrow from '@icons/leftArrow';
-import RightArrow from '@icons/rightArrow';
+import ArrowLeftCircle from '@icons/ArrowLeftCircle';
+import ArrowRightCircle from '@icons/ArrowRightCircle';
 
 const Testimonials = ({ heading, testimonials }) => {
 	const [emblaRef, emblaApi] = useEmblaCarousel({
@@ -27,7 +27,6 @@ const Testimonials = ({ heading, testimonials }) => {
 
 	return (
 		<div className={styles.testimonials}>
-			<h2>{heading}</h2>
 			<Image
 				src='/images/testimonials-bg.png'
 				fill
@@ -35,24 +34,28 @@ const Testimonials = ({ heading, testimonials }) => {
 				className={styles.background}
 				quality={100}
 			/>
-			<div className={styles.embla} ref={emblaRef}>
-				<div className={styles.emblaContainer}>
-					{testimonials.map((testimonial, index) => (
-						<div className={styles.testimonial} key={index}>
-							<p>{testimonial.message}</p>
-							<h4>{testimonial.name}</h4>
-							<h5>{testimonial.client}</h5>
-						</div>
-					))}
+			<div className={styles.overlay} />
+			<div className={styles.container}>
+				<h2>{heading}</h2>
+				<div className={styles.embla} ref={emblaRef}>
+					<div className={styles.emblaContainer}>
+						{testimonials.map((testimonial, index) => (
+							<div className={styles.testimonial} key={index}>
+								<p>{testimonial.message}</p>
+								<h4>{testimonial.name}</h4>
+								<h5>{testimonial.client}</h5>
+							</div>
+						))}
+					</div>
 				</div>
-			</div>
-			<div className={styles.buttonContainer}>
-				<button onClick={scrollPrev}>
-					<LeftArrow className={styles.arrow} />
-				</button>
-				<button onClick={scrollNext}>
-					<RightArrow className={styles.arrow} />
-				</button>
+				<div className={styles.buttonContainer}>
+					<button onClick={scrollPrev}>
+						<ArrowLeftCircle className={styles.arrow} />
+					</button>
+					<button onClick={scrollNext}>
+						<ArrowRightCircle className={styles.arrow} />
+					</button>
+				</div>
 			</div>
 		</div>
 	);
