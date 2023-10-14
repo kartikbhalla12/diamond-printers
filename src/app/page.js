@@ -5,14 +5,22 @@ import Process from '@components/process';
 import Testimonials from '@components/testimonials';
 import ContactUs from '@components/contactUs';
 import Clients from '@components/clients';
+import Printing from '@components/printing';
 
 import { combineKeyValuePairs } from '@utils/sheets';
 
 import styles from './page.module.scss';
 
 export default async function Home(props) {
-	const { header, banner, process, testimonials, contactUs, clients } =
-		await getContent();
+	const {
+		header,
+		banner,
+		process,
+		testimonials,
+		contactUs,
+		clients,
+		printingTypes,
+	} = await getContent();
 
 	return (
 		<main className={styles.main}>
@@ -88,6 +96,16 @@ export default async function Home(props) {
 					key: 'client',
 					types: ['id'],
 				}).map(({ id }) => id)}
+			/>
+			<Printing
+				heading={printingTypes.heading}
+				description={printingTypes.description}
+				types={combineKeyValuePairs({
+					data: printingTypes,
+					max: 8,
+					key: 'printing',
+					types: ['id', 'label'],
+				})}
 			/>
 		</main>
 	);

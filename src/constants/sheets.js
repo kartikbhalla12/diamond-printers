@@ -8,6 +8,7 @@ const sheets = {
 	footer: 'footer',
 	contactUs: 'contact_us',
 	clients: 'clients',
+	printingTypes: 'printing_types',
 };
 
 export default sheets;
