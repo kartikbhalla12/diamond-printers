@@ -6,7 +6,7 @@ import { getGoogleImageUrl } from '@utils/drive';
 
 const Clients = ({ heading, description, clients }) => {
 	return (
-		<div className={styles.clients}>
+		<section className={styles.clients}>
 			<h2>{heading}</h2>
 			<h3>{description}</h3>
 			<div className={styles.images}>
@@ -21,7 +21,7 @@ const Clients = ({ heading, description, clients }) => {
 					</div>
 				))}
 			</div>
-		</div>
+		</section>
 	);
 };
 

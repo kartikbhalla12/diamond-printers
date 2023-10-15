@@ -21,7 +21,7 @@ const images = [
 
 const Process = ({ heading, steps }) => {
 	return (
-		<div className={styles.process}>
+		<section className={styles.process}>
 			<h2>{heading}</h2>
 
 			<div className={styles.steps}>
@@ -46,7 +46,7 @@ const Process = ({ heading, steps }) => {
 					</div>
 				))}
 			</div>
-		</div>
+		</section>
 	);
 };
 

@@ -6,6 +6,7 @@ import Testimonials from '@components/testimonials';
 import ContactUs from '@components/contactUs';
 import Clients from '@components/clients';
 import Printing from '@components/printing';
+import PriceEstimator from '@components/priceEstimator';
 
 import { combineKeyValuePairs } from '@utils/sheets';
 
@@ -20,6 +21,7 @@ export default async function Home(props) {
 		contactUs,
 		clients,
 		printingTypes,
+		pricing,
 	} = await getContent();
 
 	return (
@@ -106,6 +108,59 @@ export default async function Home(props) {
 					key: 'printing',
 					types: ['id', 'label'],
 				})}
+			/>
+			<PriceEstimator
+				heading={pricing.heading}
+				description={pricing.description}
+				disclaimer={pricing.disclaimer}
+				fields={{
+					material: {
+						title: pricing.material_title,
+						values: combineKeyValuePairs({
+							data: pricing,
+							max: 5,
+							key: 'material',
+							types: ['label', 'value'],
+						}),
+					},
+					printing: {
+						title: pricing.printing_title,
+						values: combineKeyValuePairs({
+							data: pricing,
+							max: 8,
+							key: 'printing',
+							types: ['label', 'value'],
+						}),
+					},
+					cardboard: {
+						title: pricing.cardboard_title,
+						values: combineKeyValuePairs({
+							data: pricing,
+							max: 8,
+							key: 'cardboard',
+							types: ['label', 'value'],
+						}),
+					},
+					dimensions: {
+						title: pricing.dimensions_title,
+						height: pricing.dimensions_height_title,
+						width: pricing.dimensions_width_title,
+						length: pricing.dimensions_length_title,
+					},
+					quantity: {
+						title: pricing.quantity_title,
+						min: pricing.quantity_minimum_value,
+					},
+					lamination: {
+						title: pricing.lamination_title,
+						values: combineKeyValuePairs({
+							data: pricing,
+							max: 5,
+							key: 'lamination',
+							types: ['label', 'value'],
+						}),
+					},
+				}}
 			/>
 		</main>
 	);

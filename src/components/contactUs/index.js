@@ -36,7 +36,7 @@ const ContactUs = ({ heading, description, email, phone, address, form }) => {
 	const [isError, setError] = useState(false);
 
 	return (
-		<div className={styles.contactUs}>
+		<section className={styles.contactUs}>
 			<Image
 				src='/images/contact-us-bg.png'
 				fill
@@ -182,7 +182,7 @@ const ContactUs = ({ heading, description, email, phone, address, form }) => {
 					)}
 				</Formik>
 			</div>
-		</div>
+		</section>
 	);
 };
 

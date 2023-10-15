@@ -12,6 +12,7 @@ const Banner = ({ heading, description, buttons }) => {
 				alt='banner-boxes-left'
 				className={styles.bannerLeft}
 				quality={100}
+				priority
 			/>
 
 			<div className={styles.contentContainer}>
@@ -35,6 +36,7 @@ const Banner = ({ heading, description, buttons }) => {
 				alt='banner-boxes-right'
 				className={styles.bannerRight}
 				quality={100}
+				priority
 			/>
 		</section>
 	);

@@ -17,11 +17,13 @@ const Footer = () => {
 					<Col className='d-flex flex-column mb-5 col-md-6 align-items-center  align-items-md-start'>
 						<Navbar.Brand href={'headerContent.logo.href'}>
 							<Image
+								priority
 								src={'/logo.webp'}
 								className='mb-3'
 								width={200}
 								height={84}
 								alt={'headerContent.logo.alt'}
+								quality={100}
 							/>
 						</Navbar.Brand>
 						<p style={{ maxWidth: 200 }} className='text-center text-md-start'>
