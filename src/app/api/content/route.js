@@ -20,7 +20,7 @@ const mapSheetsData = sheetsData =>
 	);
 
 export async function GET() {
-	const range = `!B1:C100`;
+	const range = `!B1:C150`;
 
 	try {
 		let sheetsData = await getGoogleSheetsData(

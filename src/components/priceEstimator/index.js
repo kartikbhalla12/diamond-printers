@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { Fragment, useRef, useState } from 'react';
 import Image from 'next/image';
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -10,19 +10,31 @@ import ArrowDown from '@icons/ArrowDown';
 import styles from '@components/priceEstimator/index.module.scss';
 
 const PriceEstimator = ({
+	visible,
 	heading,
 	description,
 	disclaimer,
 	fields: { material, quantity, cardboard, dimensions, printing, lamination },
 }) => {
 	const [unitPrice, setUnitPrice] = useState(0);
+	const [qty, setQty] = useState(0);
+
+	const formikRef = useRef();
+
+	const submitAndValidateForm = async () => {
+		const errors = await formikRef.current.validateForm();
+		if (Object.keys(errors).length) {
+			setUnitPrice(0);
+			setQty(0);
+		} else setTimeout(formikRef.current.submitForm, 0);
+	};
 
 	const schema = new yup.ObjectSchema({
-		material: yup.number(),
-		printing: yup.number(),
-		cardboard: yup.number(),
-		lamination: yup.number(),
-		dimensions: yup.object({
+		materialValue: yup.string(),
+		printingValue: yup.string(),
+		cardboardValue: yup.string(),
+		laminationValue: yup.string(),
+		dimensionsValue: yup.object({
 			length: yup
 				.number()
 				.typeError('Should be a number')
@@ -36,11 +48,22 @@ const PriceEstimator = ({
 				.typeError('Should be a number')
 				.min(1, 'Minimum 1 inch'),
 		}),
-		quantity: yup
+		quantityValue: yup
 			.number()
 			.typeError('Should be a number')
 			.min(quantity.min, `Minimum ${quantity.min} pcs`),
 	});
+
+	if (!visible) return <></>;
+
+	const splitData = m => m.split(',').map(i => +i);
+	const getDataIndex = (arr, key) => arr.findIndex(e => e.key === key);
+
+	// const getMaterialIndex = (key) =>
+	//   material.values.findIndex((m) => m.key === key);
+
+	// const getPrintingIndex = (key) =>
+	//   printing.values.findIndex((p) => p.key === key);
 
 	return (
 		<section className={styles.priceEstimator}>
@@ -60,37 +83,59 @@ const PriceEstimator = ({
 				<div className={styles.estimator}>
 					<div className={styles.estimatorContainer}>
 						<Formik
+							innerRef={formikRef}
 							initialValues={{
-								material: '',
-								printing: '',
-								cardboard: '',
-								lamination: '',
-								dimensions: {
+								materialValue: '',
+								printingValue: '',
+								cardboardValue: '',
+								laminationValue: '',
+								dimensionsValue: {
 									length: '',
 									width: '',
 									height: '',
 								},
-								quantity: '',
+								quantityValue: '',
 							}}
 							validationSchema={schema}
-							validateOnChange
-							validateOnBlur
 							onSubmit={async ({
-								material,
-								printing,
-								cardboard,
-								dimensions,
-								lamination,
+								materialValue,
+								printingValue,
+								cardboardValue,
+								dimensionsValue,
+								laminationValue,
+								quantityValue,
 							}) => {
+								// console.log(                materialValue,
+								//   printingValue,
+								//   cardboardValue,
+								//   dimensionsValue,
+								//   laminationValue,
+								//   quantityValue,)
+
+								const materialPrice =
+									+material.values.find(m => m.key === materialValue)?.value ||
+									1;
+								const printingPrice =
+									+printing.values.find(m => m.key === printingValue)?.value ||
+									1;
+								const cardboardPrice =
+									+cardboard.values.find(m => m.key === cardboardValue)
+										?.value || 1;
+								const laminationPrice =
+									+lamination.values.find(m => m.key === laminationValue)
+										?.value || 1;
+
 								setUnitPrice(
-									+material *
-										+printing *
-										+cardboard *
-										+lamination *
-										+dimensions.length *
-										+dimensions.height *
-										+dimensions.width
+									materialPrice *
+										printingPrice *
+										cardboardPrice *
+										laminationPrice *
+										dimensionsValue.length *
+										dimensionsValue.height *
+										dimensionsValue.width
 								);
+
+								setQty(quantityValue);
 							}}>
 							{({
 								values,
@@ -99,26 +144,25 @@ const PriceEstimator = ({
 								handleChange,
 								handleBlur,
 								handleSubmit,
-								submitForm,
 							}) => (
 								<form onSubmit={handleSubmit}>
 									<div className={styles.field}>
-										<label htmlFor='material'>{material.title}</label>
+										<label htmlFor='materialValue'>{material.title}</label>
 										<div className={styles.selectContainer}>
 											<select
-												id='material'
-												name='material'
-												onChange={e => {
-													handleChange(e);
-													setTimeout(submitForm, 0);
+												id='materialValue'
+												name='materialValue'
+												onChange={async e => {
+													await handleChange(e);
+													submitAndValidateForm();
 												}}
 												onBlur={handleBlur}
-												value={values.material}>
+												value={values.materialValue}>
 												<option value='' disabled>
 													Choose
 												</option>
-												{material.values.map(({ value, label }) => (
-													<option key={`materials_${label}`} value={+value}>
+												{material.values.map(({ label, key }) => (
+													<option key={`materials_${label}`} value={key}>
 														{label}
 													</option>
 												))}
@@ -130,30 +174,44 @@ const PriceEstimator = ({
 											/>
 										</div>
 									</div>
-									{errors.material && touched.material && (
-										<p className={styles.fieldError}>{errors.material}</p>
+									{errors.materialValue && touched.materialValue && (
+										<p className={styles.fieldError}>{errors.materialValue}</p>
 									)}
 
 									<div className={styles.field}>
-										<label htmlFor='printing'>{printing.title}</label>
+										<label htmlFor='cardboardValue'>{cardboard.title}</label>
 										<div className={styles.selectContainer}>
 											<select
-												id='printing'
-												name='printing'
-												onChange={e => {
-													handleChange(e);
-													setTimeout(submitForm, 0);
+												id='cardboardValue'
+												name='cardboardValue'
+												onChange={async e => {
+													await handleChange(e);
+													submitAndValidateForm();
 												}}
 												onBlur={handleBlur}
-												value={values.printing}>
+												value={values.cardboardValue}>
 												<option value='' disabled>
 													Choose
 												</option>
-												{printing.values.map(({ value, label }) => (
-													<option key={`printings_${label}`} value={+value}>
-														{label}
-													</option>
-												))}
+												{cardboard.values.map(
+													({ key, label, materials }, index) => {
+														if (
+															splitData(materials).includes(
+																getDataIndex(
+																	material.values,
+																	values.materialValue
+																) + 1
+															)
+														)
+															return (
+																<option key={`cardboard_${label}`} value={key}>
+																	{label}
+																</option>
+															);
+
+														return <Fragment key={index}></Fragment>;
+													}
+												)}
 											</select>
 											<ArrowDown
 												className={styles.icon}
@@ -162,30 +220,44 @@ const PriceEstimator = ({
 											/>
 										</div>
 									</div>
-									{errors.printing && touched.printing && (
-										<p className={styles.fieldError}>{errors.printing}</p>
+									{errors.cardboardValue && touched.cardboardValue && (
+										<p className={styles.fieldError}>{errors.cardboardValue}</p>
 									)}
 
 									<div className={styles.field}>
-										<label htmlFor='cardboard'>{cardboard.title}</label>
+										<label htmlFor='printingValue'>{printing.title}</label>
 										<div className={styles.selectContainer}>
 											<select
-												id='cardboard'
-												name='cardboard'
-												onChange={e => {
-													handleChange(e);
-													setTimeout(submitForm, 0);
+												id='printingValue'
+												name='printingValue'
+												onChange={async e => {
+													await handleChange(e);
+													submitAndValidateForm();
 												}}
 												onBlur={handleBlur}
-												value={values.cardboard}>
+												value={values.printingValue}>
 												<option value='' disabled>
 													Choose
 												</option>
-												{cardboard.values.map(({ value, label }) => (
-													<option key={`cardboard_${label}`} value={+value}>
-														{label}
-													</option>
-												))}
+												{printing.values.map(
+													({ label, materials, key }, index) => {
+														if (
+															splitData(materials).includes(
+																getDataIndex(
+																	material.values,
+																	values.materialValue
+																) + 1
+															)
+														)
+															return (
+																<option key={`printing_${label}`} value={key}>
+																	{label}
+																</option>
+															);
+
+														return <Fragment key={index}></Fragment>;
+													}
+												)}
 											</select>
 											<ArrowDown
 												className={styles.icon}
@@ -194,30 +266,58 @@ const PriceEstimator = ({
 											/>
 										</div>
 									</div>
-									{errors.cardboard && touched.cardboard && (
-										<p className={styles.fieldError}>{errors.cardboard}</p>
+									{errors.printingValue && touched.printingValue && (
+										<p className={styles.fieldError}>{errors.printingValue}</p>
 									)}
 
 									<div className={styles.field}>
-										<label htmlFor='lamination'>{lamination.title}</label>
+										<label htmlFor='laminationValue'>{lamination.title}</label>
 										<div className={styles.selectContainer}>
 											<select
-												id='lamination'
-												name='lamination'
-												onChange={e => {
-													handleChange(e);
-													setTimeout(submitForm, 0);
+												id='laminationValue'
+												name='laminationValue'
+												onChange={async e => {
+													await handleChange(e);
+													submitAndValidateForm();
 												}}
 												onBlur={handleBlur}
-												value={values.lamination}>
+												value={values.laminationValue}>
 												<option value='' disabled>
 													Choose
 												</option>
-												{lamination.values.map(({ value, label }) => (
-													<option key={`lamination_${label}`} value={+value}>
-														{label}
-													</option>
-												))}
+												{lamination.values.map(
+													(
+														{
+															key,
+															label,
+															materials,
+															printing: printingValidation,
+														},
+														index
+													) => {
+														if (
+															splitData(materials).includes(
+																getDataIndex(
+																	material.values,
+																	values.materialValue
+																) + 1
+															) &&
+															splitData(printingValidation).includes(
+																getDataIndex(
+																	printing.values,
+																	values.printingValue
+																) + 1
+															)
+														)
+															return (
+																<option key={`lamination_${label}`} value={key}>
+																	{label}
+																</option>
+															);
+
+														return <Fragment key={index}></Fragment>;
+													}
+												)}
 											</select>
 											<ArrowDown
 												className={styles.icon}
@@ -226,96 +326,97 @@ const PriceEstimator = ({
 											/>
 										</div>
 									</div>
-									{errors.lamination && touched.lamination && (
-										<p className={styles.fieldError}>{errors.lamination}</p>
+									{errors.laminationValue && touched.laminationValue && (
+										<p className={styles.fieldError}>
+											{errors.laminationValue}
+										</p>
 									)}
 
 									<div className={styles.field}>
-										<label htmlFor='size'>{dimensions.title}</label>
+										<label htmlFor='dimensionsValue'>{dimensions.title}</label>
 
 										<div className={styles.dimensionsInputContainer}>
 											<input
 												type='number'
-												name='dimensions.length'
+												name='dimensionsValue.length'
 												placeholder={dimensions.length}
-												onChange={e => {
-													handleChange(e);
-													setTimeout(submitForm, 0);
+												onChange={async e => {
+													await handleChange(e);
+													submitAndValidateForm();
 												}}
 												onBlur={handleBlur}
-												value={values.dimensions.length}
+												value={values.dimensionsValue.length}
 											/>
 											<input
 												type='number'
-												name='dimensions.width'
+												name='dimensionsValue.width'
 												placeholder={dimensions.width}
-												onChange={e => {
-													handleChange(e);
-													setTimeout(submitForm, 0);
+												onChange={async e => {
+													await handleChange(e);
+													submitAndValidateForm();
 												}}
 												onBlur={handleBlur}
-												value={values.dimensions.width}
+												value={values.dimensionsValue.width}
 											/>
 											<input
 												type='number'
-												name='dimensions.height'
+												name='dimensionsValue.height'
 												placeholder={dimensions.height}
-												onChange={e => {
-													handleChange(e);
-													setTimeout(submitForm, 0);
+												onChange={async e => {
+													await handleChange(e);
+													submitAndValidateForm();
 												}}
 												onBlur={handleBlur}
-												value={values.dimensions.height}
+												value={values.dimensionsValue.height}
 											/>
 										</div>
 									</div>
 
-									{touched.dimensions &&
-										(errors.dimensions?.length ||
-											errors.dimensions?.width ||
-											errors.dimensions?.height) && (
+									{touched.dimensionsValue &&
+										(errors.dimensionsValue?.length ||
+											errors.dimensionsValue?.width ||
+											errors.dimensionsValue?.height) && (
 											<p className={styles.fieldError}>
-												{errors.dimensions?.length ||
-													errors.dimensions?.width ||
-													errors.dimensions?.height}
+												{errors.dimensionsValue?.length ||
+													errors.dimensionsValue?.width ||
+													errors.dimensionsValue?.height}
 											</p>
 										)}
 
 									<div className={styles.field}>
-										<label htmlFor='size'>{quantity.title}</label>
+										<label htmlFor='quantityValue'>{quantity.title}</label>
 
 										<div className={styles.inputContainer}>
 											<input
 												type='number'
-												name='quantity'
+												name='quantityValue'
 												placeholder='0'
-												onChange={e => {
-													handleChange(e);
-													setTimeout(submitForm, 0);
+												onChange={async e => {
+													await handleChange(e);
+													submitAndValidateForm();
 												}}
 												onBlur={handleBlur}
-												value={values.quantity}
+												value={values.quantityValue}
 											/>
 										</div>
 									</div>
-									{errors.quantity && touched.quantity && (
-										<p className={styles.fieldError}>{errors.quantity}</p>
+									{errors.quantityValue && touched.quantityValue && (
+										<p className={styles.fieldError}>{errors.quantityValue}</p>
 									)}
-
-									<div className={styles.estimate}>
-										<div className={styles.total}>
-											<h4>Subtotal</h4>
-											<p>Rs. {unitPrice * values.quantity}</p>
-										</div>
-
-										<div className={styles.unit}>
-											<h4>Unit Price</h4>
-											<p>Rs. {unitPrice}</p>
-										</div>
-									</div>
 								</form>
 							)}
 						</Formik>
+						<div className={styles.estimate}>
+							<div className={styles.total}>
+								<h4>Subtotal</h4>
+								<p>Rs. {unitPrice * qty}</p>
+							</div>
+
+							<div className={styles.unit}>
+								<h4>Unit Price</h4>
+								<p>Rs. {unitPrice}</p>
+							</div>
+						</div>
 					</div>
 					<p className={styles.disclaimer}>* {disclaimer}</p>
 				</div>

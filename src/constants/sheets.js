@@ -9,6 +9,7 @@ const sheets = {
 	contactUs: 'contact_us',
 	clients: 'clients',
 	printingTypes: 'printing_types',
+	gallery: 'gallery',
 };
 
 export default sheets;

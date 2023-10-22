@@ -41,7 +41,7 @@ export const combineKeyValuePairs = ({ key, data, max, types }) => {
 				...acc,
 				[type]: data[`${key}_${i}_${type}`],
 			}),
-			{}
+			{ key: `${key}_${i}` }
 		);
 
 		if (!Object.values(item).includes(undefined)) arr.push(item);
