@@ -8,10 +8,12 @@ import Clients from '@components/clients';
 import Printing from '@components/printing';
 import PriceEstimator from '@components/priceEstimator';
 import Gallery from '@components/gallery';
+import Cardboard from '@components/cardboard';
 
 import { combineKeyValuePairs } from '@utils/sheets';
 
 import styles from './page.module.scss';
+import About from '@components/about';
 
 export default async function Home(props) {
 	const {
@@ -22,9 +24,14 @@ export default async function Home(props) {
 		contactUs,
 		clients,
 		printingTypes,
-		pricing,
+		priceEstimator,
 		gallery,
+		cardboardTypes,
+		priceCombinations,
+		aboutUs,
 	} = await getContent();
+
+	// console.log(Object.entries(priceCombinations).map(([combination, price]) => ({combination: combination, price})))
 
 	return (
 		<main className={styles.main}>
@@ -52,6 +59,17 @@ export default async function Home(props) {
 			/>
 			{/* <Footer /> */}
 
+			<About
+				heading={aboutUs.heading}
+				description={aboutUs.description}
+				banner={aboutUs.banner}
+				stats={combineKeyValuePairs({
+					data: aboutUs,
+					max: 3,
+					key: 'stats',
+					types: ['title', 'description', 'iconId'],
+				})}
+			/>
 			<Process
 				heading={process.heading}
 				steps={combineKeyValuePairs({
@@ -60,6 +78,16 @@ export default async function Home(props) {
 					key: 'step',
 					types: ['label', 'description'],
 				})}
+			/>
+			<Cardboard
+				types={combineKeyValuePairs({
+					data: cardboardTypes,
+					max: 8,
+					key: 'cardboard',
+					types: ['id', 'label', 'description'],
+				})}
+				heading={cardboardTypes.heading}
+				description={cardboardTypes.description}
 			/>
 			<Testimonials
 				heading={testimonials.heading}
@@ -122,56 +150,56 @@ export default async function Home(props) {
 				})}
 			/>
 			<PriceEstimator
-				visible={pricing.visible.toLowerCase() === 'true'}
-				heading={pricing.heading}
-				description={pricing.description}
-				disclaimer={pricing.disclaimer}
+				visible={priceEstimator.visible.toLowerCase() === 'true'}
+				heading={priceEstimator.heading}
+				description={priceEstimator.description}
+				disclaimer={priceEstimator.disclaimer}
 				fields={{
 					material: {
-						title: pricing.material_title,
+						title: priceEstimator.material_title,
 						values: combineKeyValuePairs({
-							data: pricing,
+							data: priceEstimator,
 							max: 5,
 							key: 'material',
-							types: ['label', 'value'],
+							types: ['label', 'code'],
 						}),
 					},
 					cardboard: {
-						title: pricing.cardboard_title,
+						title: priceEstimator.cardboard_title,
 						values: combineKeyValuePairs({
-							data: pricing,
+							data: priceEstimator,
 							max: 8,
 							key: 'cardboard',
-							types: ['label', 'value', 'materials'],
+							types: ['label', 'materials', 'code'],
 						}),
 					},
 					printing: {
-						title: pricing.printing_title,
+						title: priceEstimator.printing_title,
 						values: combineKeyValuePairs({
-							data: pricing,
+							data: priceEstimator,
 							max: 8,
 							key: 'printing',
-							types: ['label', 'value', 'materials'],
+							types: ['label', 'materials', 'code'],
 						}),
 					},
 					lamination: {
-						title: pricing.lamination_title,
+						title: priceEstimator.lamination_title,
 						values: combineKeyValuePairs({
-							data: pricing,
+							data: priceEstimator,
 							max: 5,
 							key: 'lamination',
-							types: ['label', 'value', 'materials', 'printing'],
+							types: ['label', 'materials', 'printing', 'code'],
 						}),
 					},
 					dimensions: {
-						title: pricing.dimensions_title,
-						height: pricing.dimensions_height_title,
-						width: pricing.dimensions_width_title,
-						length: pricing.dimensions_length_title,
+						title: priceEstimator.dimensions_title,
+						height: priceEstimator.dimensions_height_title,
+						width: priceEstimator.dimensions_width_title,
+						length: priceEstimator.dimensions_length_title,
 					},
 					quantity: {
-						title: pricing.quantity_title,
-						min: pricing.quantity_minimum_value,
+						title: priceEstimator.quantity_title,
+						min: priceEstimator.quantity_minimum_value,
 					},
 				}}
 			/>

@@ -17,7 +17,7 @@ const Gallery = ({ heading, photos }) => {
 	}));
 
 	return (
-		<div className={styles.gallery}>
+		<section className={styles.gallery}>
 			<h2>{heading}</h2>
 
 			<div className={styles.images}>
@@ -42,7 +42,7 @@ const Gallery = ({ heading, photos }) => {
 					)}
 				/>
 			</div>
-		</div>
+		</section>
 	);
 };
 

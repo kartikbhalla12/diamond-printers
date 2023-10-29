@@ -56,8 +56,8 @@ const PriceEstimator = ({
 
 	if (!visible) return <></>;
 
-	const splitData = m => m.split(',').map(i => +i);
-	const getDataIndex = (arr, key) => arr.findIndex(e => e.key === key);
+	const splitData = m => m.split(',').map(d => d.trim());
+	// const getDataIndex = (arr, key) => arr.findIndex((e) => e.key === key);
 
 	// const getMaterialIndex = (key) =>
 	//   material.values.findIndex((m) => m.key === key);
@@ -112,30 +112,27 @@ const PriceEstimator = ({
 								//   laminationValue,
 								//   quantityValue,)
 
-								const materialPrice =
-									+material.values.find(m => m.key === materialValue)?.value ||
-									1;
-								const printingPrice =
-									+printing.values.find(m => m.key === printingValue)?.value ||
-									1;
-								const cardboardPrice =
-									+cardboard.values.find(m => m.key === cardboardValue)
-										?.value || 1;
-								const laminationPrice =
-									+lamination.values.find(m => m.key === laminationValue)
-										?.value || 1;
+								// console.log(
 
-								setUnitPrice(
-									materialPrice *
-										printingPrice *
-										cardboardPrice *
-										laminationPrice *
-										dimensionsValue.length *
-										dimensionsValue.height *
-										dimensionsValue.width
-								);
+								const combination = `${materialValue} ${printingValue} ${cardboardValue} ${laminationValue}`;
+								console.log(combination);
 
-								setQty(quantityValue);
+								// const materialPrice =
+								//   +material.values.find((m) => m.code === materialValue)
+								//     ?.value || 1;
+								// const printingPrice =
+								//   +printing.values.find((m) => m.code === printingValue)
+								//     ?.value || 1;
+								// const cardboardPrice =
+								//   +cardboard.values.find((m) => m.code === cardboardValue)
+								//     ?.value || 1;
+								// const laminationPrice =
+								//   +lamination.values.find((m) => m.code === laminationValue)
+								//     ?.value || 1;
+
+								setUnitPrice(0);
+
+								setQty(0);
 							}}>
 							{({
 								values,
@@ -161,8 +158,8 @@ const PriceEstimator = ({
 												<option value='' disabled>
 													Choose
 												</option>
-												{material.values.map(({ label, key }) => (
-													<option key={`materials_${label}`} value={key}>
+												{material.values.map(({ label, code }) => (
+													<option key={`materials_${label}`} value={code}>
 														{label}
 													</option>
 												))}
@@ -194,17 +191,14 @@ const PriceEstimator = ({
 													Choose
 												</option>
 												{cardboard.values.map(
-													({ key, label, materials }, index) => {
+													({ code, label, materials }, index) => {
 														if (
 															splitData(materials).includes(
-																getDataIndex(
-																	material.values,
-																	values.materialValue
-																) + 1
+																values.materialValue
 															)
 														)
 															return (
-																<option key={`cardboard_${label}`} value={key}>
+																<option key={`cardboard_${label}`} value={code}>
 																	{label}
 																</option>
 															);
@@ -240,17 +234,14 @@ const PriceEstimator = ({
 													Choose
 												</option>
 												{printing.values.map(
-													({ label, materials, key }, index) => {
+													({ label, materials, code }, index) => {
 														if (
 															splitData(materials).includes(
-																getDataIndex(
-																	material.values,
-																	values.materialValue
-																) + 1
+																values.materialValue
 															)
 														)
 															return (
-																<option key={`printing_${label}`} value={key}>
+																<option key={`printing_${label}`} value={code}>
 																	{label}
 																</option>
 															);
@@ -288,29 +279,25 @@ const PriceEstimator = ({
 												{lamination.values.map(
 													(
 														{
-															key,
 															label,
 															materials,
 															printing: printingValidation,
+															code,
 														},
 														index
 													) => {
 														if (
 															splitData(materials).includes(
-																getDataIndex(
-																	material.values,
-																	values.materialValue
-																) + 1
+																values.materialValue
 															) &&
 															splitData(printingValidation).includes(
-																getDataIndex(
-																	printing.values,
-																	values.printingValue
-																) + 1
+																values.printingValue
 															)
 														)
 															return (
-																<option key={`lamination_${label}`} value={key}>
+																<option
+																	key={`lamination_${label}`}
+																	value={code}>
 																	{label}
 																</option>
 															);
