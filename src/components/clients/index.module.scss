@@ -3,10 +3,22 @@
 	border-top-left-radius: 80px;
 	border-top-right-radius: 80px;
 	text-align: center;
-	padding: 80px 120px;
+	padding: 80px 48px;
 	display: flex;
 	align-items: center;
 	flex-direction: column;
+	margin-bottom: -80px;
+	top: -80px;
+	position: relative;
+
+	@media (max-width: 778px) {
+		padding: 48px 24px;
+
+		border-top-left-radius: 32px;
+		border-top-right-radius: 32px;
+		top: -32px;
+		margin-bottom: -32px;
+	}
 
 	h2 {
 		font-size: 32px;
@@ -14,6 +26,11 @@
 		font-weight: 500;
 		color: #fffdf6;
 		margin-bottom: 32px;
+
+		@media (max-width: 778px) {
+			font-size: 24px;
+			line-height: 32px;
+		}
 	}
 
 	h3 {
@@ -22,6 +39,11 @@
 		font-weight: 400;
 		color: #fffdf6;
 		max-width: 600px;
+
+		@media (max-width: 778px) {
+			font-size: 14px;
+			line-height: 20px;
+		}
 	}
 
 	.images {
@@ -32,10 +54,20 @@
 		margin-top: 48px;
 		flex-wrap: wrap;
 
+		@media (max-width: 778px) {
+			column-gap: 20px;
+			margin-top: 32px;
+		}
+
 		.imageContainer {
 			position: relative;
 			width: 100px;
 			height: 120px;
+
+			@media (max-width: 778px) {
+				width: 80px;
+				height: 96px;
+			}
 
 			img {
 				object-fit: contain;

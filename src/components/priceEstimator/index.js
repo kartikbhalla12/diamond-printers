@@ -66,7 +66,7 @@ const PriceEstimator = ({
 	//   printing.values.findIndex((p) => p.key === key);
 
 	return (
-		<section className={styles.priceEstimator}>
+		<section className={styles.priceEstimator} id='price-estimator'>
 			<Image
 				src='/images/price-estimator-bg.png'
 				fill

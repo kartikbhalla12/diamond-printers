@@ -17,14 +17,14 @@ const Gallery = ({ heading, photos }) => {
 	}));
 
 	return (
-		<section className={styles.gallery}>
+		<section className={styles.gallery} id='gallery'>
 			<h2>{heading}</h2>
 
 			<div className={styles.images}>
 				<ReactPhotoGallery
 					photos={galleryPhotos}
 					layout='rows'
-					spacing={2}
+					spacing={4}
 					renderPhoto={({
 						photo,
 						imageProps: { alt, title, sizes, className, onClick },

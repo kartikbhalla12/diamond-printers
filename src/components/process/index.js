@@ -19,35 +19,31 @@ const images = [
 	},
 ];
 
-const Process = ({ heading, steps }) => {
-	return (
-		<section className={styles.process}>
-			<h2>{heading}</h2>
+const Process = ({ heading, steps }) => (
+	<section className={styles.process} id='process'>
+		<h2>{heading}</h2>
 
-			<div className={styles.steps}>
-				{steps.map((step, index) => (
-					<div className={styles.step} key={index}>
+		<div className={styles.steps}>
+			{steps.map((step, index) => (
+				<div className={styles.step} key={index}>
+					<div className={styles.imageContainer}>
 						<Image
 							src={images[index].src}
-							height={80}
-							width={60}
 							alt={images[index].alt}
 							quality={100}
+							fill
 						/>
-						<h3>{step.label}</h3>
-						<p>{step.description}</p>
-						{index < steps.length - 1 && (
-							<ArrowRightCurve
-								height={30}
-								width={160}
-								className={styles.arrow}
-							/>
-						)}
 					</div>
-				))}
-			</div>
-		</section>
-	);
-};
+
+					<h3>{step.label}</h3>
+					<p>{step.description}</p>
+					{index < steps.length - 1 && (
+						<ArrowRightCurve height={30} width={160} className={styles.arrow} />
+					)}
+				</div>
+			))}
+		</div>
+	</section>
+);
 
 export default Process;

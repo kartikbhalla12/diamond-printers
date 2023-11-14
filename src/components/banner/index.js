@@ -4,16 +4,16 @@ import styles from '@components/banner/index.module.scss';
 
 const Banner = ({ heading, description, buttons }) => {
 	return (
-		<section className={styles.banner}>
-			<Image
-				src='/images/banner-left.png'
-				height={705}
-				width={600}
-				alt='banner-boxes-left'
-				className={styles.bannerLeft}
-				quality={100}
-				priority
-			/>
+		<section className={styles.banner} id='home'>
+			<div className={styles.leftBannerContainer}>
+				<Image
+					src='/images/banner-left.png'
+					alt='banner-boxes-left'
+					quality={100}
+					priority
+					fill
+				/>
+			</div>
 
 			<div className={styles.contentContainer}>
 				<h1>{heading}</h1>
@@ -29,15 +29,15 @@ const Banner = ({ heading, description, buttons }) => {
 				</div>
 			</div>
 
-			<Image
-				src='/images/banner-right.png'
-				height={545}
-				width={500}
-				alt='banner-boxes-right'
-				className={styles.bannerRight}
-				quality={100}
-				priority
-			/>
+			<div className={styles.rightBannerContainer}>
+				<Image
+					src='/images/banner-right.png'
+					alt='banner-boxes-right'
+					quality={100}
+					priority
+					fill
+				/>
+			</div>
 		</section>
 	);
 };

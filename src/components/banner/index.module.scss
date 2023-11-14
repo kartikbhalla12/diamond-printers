@@ -6,16 +6,66 @@
 	position: relative;
 	overflow: hidden;
 
-	.bannerLeft {
+	@media (max-width: 778px) {
+		background: linear-gradient(
+			180deg,
+			#93aec7 45%,
+			rgba(255, 255, 255, 1) 120%
+		);
+	}
+
+	.leftBannerContainer {
+		width: 600px;
+		aspect-ratio: 6 / 7;
 		position: absolute;
 		left: -100px;
 		bottom: -100px;
+
+		@media (max-width: 992px) {
+			width: 500px;
+			left: -84px;
+			bottom: -84px;
+		}
+
+		@media (max-width: 778px) {
+			width: 400px;
+			left: -66px;
+			bottom: -66px;
+		}
+
+		@media (max-width: 480px) {
+			width: 200px;
+			left: -34px;
+			bottom: -34px;
+		}
+
+		img {
+			object-fit: contain;
+		}
 	}
 
-	.bannerRight {
+	.rightBannerContainer {
+		width: 500px;
+		aspect-ratio: 10 / 11;
 		position: absolute;
 		right: 0;
 		bottom: 0;
+
+		@media (max-width: 992px) {
+			width: 420px;
+		}
+
+		@media (max-width: 778px) {
+			width: 330px;
+		}
+
+		@media (max-width: 480px) {
+			width: 170px;
+		}
+
+		img {
+			object-fit: contain;
+		}
 	}
 
 	.contentContainer {
@@ -25,12 +75,24 @@
 		text-align: center;
 		align-self: center;
 		z-index: 1;
+		padding: 0 24px;
+
+		@media (max-width: 768px) {
+			gap: 24px;
+			align-self: flex-start;
+			padding-top: 150px;
+		}
 
 		h1 {
 			color: #fff;
 			font-size: 56px;
 			font-weight: 500;
 			line-height: 64px;
+
+			@media (max-width: 768px) {
+				font-size: 36px;
+				line-height: 46px;
+			}
 		}
 
 		h3 {
@@ -38,12 +100,22 @@
 			font-size: 22px;
 			font-weight: 400;
 			line-height: 24px;
+
+			@media (max-width: 768px) {
+				font-size: 16px;
+				line-height: 22px;
+			}
 		}
 
 		.buttonContainer {
 			gap: 16px;
 			display: flex;
 			justify-content: center;
+
+			@media (max-width: 768px) {
+				flex-direction: column;
+				align-items: center;
+			}
 
 			button {
 				background-color: #fff;
@@ -56,6 +128,11 @@
 				letter-spacing: 2px;
 				font-family: var(--font-lato);
 				text-transform: uppercase;
+
+				@media (max-width: 768px) {
+					min-width: 240px;
+					font-size: 11px;
+				}
 			}
 
 			button.secondary {

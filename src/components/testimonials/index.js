@@ -26,7 +26,7 @@ const Testimonials = ({ heading, testimonials }) => {
 	}, [emblaApi]);
 
 	return (
-		<section className={styles.testimonials}>
+		<section className={styles.testimonials} id='testimonials'>
 			<Image
 				src='/images/testimonials-bg.png'
 				fill

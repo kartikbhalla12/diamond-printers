@@ -46,6 +46,10 @@ export default async function Home(props) {
 					key: 'nav',
 					types: ['label', 'link'],
 				})}
+				logo={{
+					id: header.logo_id,
+					alt: header.logo_alt,
+				}}
 			/>
 			<Banner
 				heading={banner.heading}
@@ -67,7 +71,16 @@ export default async function Home(props) {
 					data: aboutUs,
 					max: 3,
 					key: 'stats',
-					types: ['title', 'description', 'iconId'],
+					types: ['title', 'description', 'count'],
+				})}
+			/>
+			<Gallery
+				heading={gallery.heading}
+				photos={combineKeyValuePairs({
+					data: gallery,
+					max: 12,
+					key: 'image',
+					types: ['id', 'label', 'orientation'],
 				})}
 			/>
 			<Process
@@ -79,6 +92,7 @@ export default async function Home(props) {
 					types: ['label', 'description'],
 				})}
 			/>
+
 			<Cardboard
 				types={combineKeyValuePairs({
 					data: cardboardTypes,
@@ -98,57 +112,7 @@ export default async function Home(props) {
 					types: ['message', 'name', 'client'],
 				})}
 			/>
-			<Gallery
-				heading={gallery.heading}
-				photos={combineKeyValuePairs({
-					data: gallery,
-					max: 12,
-					key: 'image',
-					types: ['id', 'label', 'orientation'],
-				})}
-			/>
-			<ContactUs
-				heading={contactUs.heading}
-				description={contactUs.description}
-				address={{
-					label: contactUs.address_label,
-					link: contactUs.address_link,
-				}}
-				email={{ label: contactUs.email_label, value: contactUs.email_value }}
-				phone={{ label: contactUs.phone_label, value: contactUs.phone_value }}
-				form={{
-					heading: contactUs.form_heading,
-					name: contactUs.form_name_label,
-					phone: contactUs.form_phone_label,
-					email: contactUs.form_email_label,
-					button: contactUs.form_button_label,
-					message: contactUs.form_message_label,
-					validationMessages: {
-						success: contactUs.form_success_label,
-						error: contactUs.form_error_label,
-					},
-				}}
-			/>
-			<Clients
-				heading={clients.heading}
-				description={clients.description}
-				clients={combineKeyValuePairs({
-					data: clients,
-					max: 8,
-					key: 'client',
-					types: ['id'],
-				}).map(({ id }) => id)}
-			/>
-			<Printing
-				heading={printingTypes.heading}
-				description={printingTypes.description}
-				types={combineKeyValuePairs({
-					data: printingTypes,
-					max: 8,
-					key: 'printing',
-					types: ['id', 'label'],
-				})}
-			/>
+
 			<PriceEstimator
 				visible={priceEstimator.visible.toLowerCase() === 'true'}
 				heading={priceEstimator.heading}
@@ -200,6 +164,49 @@ export default async function Home(props) {
 					quantity: {
 						title: priceEstimator.quantity_title,
 						min: priceEstimator.quantity_minimum_value,
+					},
+				}}
+			/>
+			<Clients
+				heading={clients.heading}
+				description={clients.description}
+				clients={combineKeyValuePairs({
+					data: clients,
+					max: 8,
+					key: 'client',
+					types: ['id'],
+				}).map(({ id }) => id)}
+			/>
+
+			<Printing
+				heading={printingTypes.heading}
+				description={printingTypes.description}
+				types={combineKeyValuePairs({
+					data: printingTypes,
+					max: 8,
+					key: 'printing',
+					types: ['id', 'label'],
+				})}
+			/>
+			<ContactUs
+				heading={contactUs.heading}
+				description={contactUs.description}
+				address={{
+					label: contactUs.address_label,
+					link: contactUs.address_link,
+				}}
+				email={{ label: contactUs.email_label, value: contactUs.email_value }}
+				phone={{ label: contactUs.phone_label, value: contactUs.phone_value }}
+				form={{
+					heading: contactUs.form_heading,
+					name: contactUs.form_name_label,
+					phone: contactUs.form_phone_label,
+					email: contactUs.form_email_label,
+					button: contactUs.form_button_label,
+					message: contactUs.form_message_label,
+					validationMessages: {
+						success: contactUs.form_success_label,
+						error: contactUs.form_error_label,
 					},
 				}}
 			/>

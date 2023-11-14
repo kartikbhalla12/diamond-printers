@@ -36,7 +36,7 @@ const ContactUs = ({ heading, description, email, phone, address, form }) => {
 	const [isError, setError] = useState(false);
 
 	return (
-		<section className={styles.contactUs}>
+		<section className={styles.contactUs} id='contact-us'>
 			<Image
 				src='/images/contact-us-bg.png'
 				fill

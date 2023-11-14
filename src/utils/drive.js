@@ -1,2 +1,2 @@
 export const getGoogleImageUrl = id =>
-	`https://drive.google.com/uc?export=view&id=${id}`;
+	`https://lh4.googleusercontent.com/u/0/d/${id}`;

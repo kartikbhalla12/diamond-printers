@@ -1,18 +1,27 @@
 .cardboard {
 	background-color: #fff;
-	padding: 80px 120px;
+	padding: 80px 48px;
 	display: flex;
 	align-items: center;
 	flex-direction: column;
 	text-align: center;
+
+	@media (max-width: 778px) {
+		padding: 48px 24px;
+	}
 
 	h2 {
 		font-size: 48px;
 		line-height: 56px;
 		font-weight: 400;
 		color: #484848;
-		margin-bottom: 48px;
+		margin-bottom: 16px;
 		text-align: center;
+
+		@media (max-width: 778px) {
+			font-size: 24px;
+			line-height: 32px;
+		}
 	}
 
 	.description {
@@ -23,6 +32,12 @@
 		color: #717171;
 		max-width: 800px;
 		text-align: center;
+
+		@media (max-width: 778px) {
+			font-size: 14px;
+			line-height: 20px;
+			margin-bottom: 36px;
+		}
 	}
 
 	.varietyContainer {
@@ -41,18 +56,35 @@
 			gap: 48px;
 			transition: background-color linear 0.2s;
 
+			@media (max-width: 778px) {
+				width: 100%;
+				padding: 24px 16px;
+				align-items: center;
+			}
+
 			h3 {
 				font-weight: 500;
 				font-size: 24px;
 				line-height: 34px;
 				color: #1c1c1c;
 				margin-bottom: 24px;
+
+				@media (max-width: 778px) {
+					margin-bottom: 14px;
+					font-size: 18px;
+					line-height: 24px;
+				}
 			}
 
 			p {
 				font-weight: 400;
 				font-size: 16px;
 				line-height: 22px;
+
+				@media (max-width: 778px) {
+					font-size: 14px;
+					line-height: 18px;
+				}
 			}
 
 			&:hover {
@@ -69,6 +101,11 @@
 				justify-content: center;
 				position: relative;
 				height: 125px;
+
+				@media (max-width: 778px) {
+					height: 100px;
+					width: 200px;
+				}
 
 				img {
 					object-fit: contain;
