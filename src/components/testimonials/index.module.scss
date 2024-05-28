@@ -5,6 +5,10 @@
 	overflow: hidden;
 	flex-direction: column;
 
+  &.testimonialsHidden {
+    padding-bottom: 80px;
+  }
+
 	.background {
 		filter: blur(10px);
 		transform: scale(1.1);

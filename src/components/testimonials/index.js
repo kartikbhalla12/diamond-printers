@@ -3,13 +3,14 @@
 import { useCallback } from 'react';
 import Image from 'next/image';
 import useEmblaCarousel from 'embla-carousel-react';
+import cn from 'classnames';
 
 import styles from '@components/testimonials/index.module.scss';
 
 import ArrowLeftCircle from '@icons/ArrowLeftCircle';
 import ArrowRightCircle from '@icons/ArrowRightCircle';
 
-const Testimonials = ({ heading, testimonials }) => {
+const Testimonials = ({ heading, testimonials, isPriceEstimatorVisible }) => {
 	const [emblaRef, emblaApi] = useEmblaCarousel({
 		loop: true,
 		containScroll: 'scrollSnap',
@@ -26,7 +27,13 @@ const Testimonials = ({ heading, testimonials }) => {
 	}, [emblaApi]);
 
 	return (
-		<section className={styles.testimonials} id='testimonials'>
+    <section
+      className={cn([
+        styles.testimonials,
+        { [styles.testimonialsHidden]: !isPriceEstimatorVisible },
+      ])}
+      id='testimonials'
+    >
 			<Image
 				src='/images/testimonials-bg.png'
 				fill

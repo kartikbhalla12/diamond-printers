@@ -27,11 +27,10 @@ export default async function Home(props) {
 		priceEstimator,
 		gallery,
 		cardboardTypes,
-		priceCombinations,
 		aboutUs,
 	} = await getContent();
 
-	// console.log(Object.entries(priceCombinations).map(([combination, price]) => ({combination: combination, price})))
+  const isPriceEstimatorVisible = priceEstimator.visible.toLowerCase() === 'true';
 
 	return (
 		<main className={styles.main}>
@@ -61,7 +60,7 @@ export default async function Home(props) {
 					types: ['label', 'link'],
 				})}
 			/>
-			{/* <Footer /> */}
+
 
 			<About
 				heading={aboutUs.heading}
@@ -111,10 +110,11 @@ export default async function Home(props) {
 					key: 'testimonial',
 					types: ['message', 'name', 'client'],
 				})}
+        isPriceEstimatorVisible={isPriceEstimatorVisible}
 			/>
 
 			<PriceEstimator
-				visible={priceEstimator.visible.toLowerCase() === 'true'}
+				visible={isPriceEstimatorVisible}
 				heading={priceEstimator.heading}
 				description={priceEstimator.description}
 				disclaimer={priceEstimator.disclaimer}
