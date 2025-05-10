@@ -29,8 +29,8 @@ const keywords = [
   'Sachdeva',
 ];
 const url = 'https://www.diamondprinters.in';
-const metaImage = `${url}/diamond-meta.webp`;
-const logo = `${url}/logo.png`;
+const metaImage = `${url}/images/diamond-meta.webp`;
+const logo = `${url}/images/logo.png`;
 
 export const metadata = {
   title,
@@ -59,7 +59,7 @@ export const metadata = {
     description,
     images: [
       {
-        url: `${url}/diamond-printers-meta.webp`,
+        url: metaImage,
         alt: title,
       },
     ],
